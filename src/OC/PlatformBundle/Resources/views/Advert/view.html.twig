@@ -1,0 +1,86 @@
+{% extends "OCPlatformBundle::layout.html.twig" %}
+
+{% block title %}
+  Lecture d'une annonce - {{ parent() }}
+{% endblock %}
+
+{% block ocplatform_body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            {% if advert.image is not null %}
+                <img 
+                  src="{{ asset(advert.image.webPath) }}"
+                  alt="{{ advert.image.alt }}"
+                  class="img-circle"
+                />
+            {% endif %}
+            <h2>{{ advert.title }}</h2>
+        </div>
+    </div>  
+    <div class="row">
+        <div class="col-md-12">
+            <i>Par {{ advert.author }}, le {{ advert.date|date('d/m/Y') }}</i>
+        </div>
+        
+        <div class="col-md-12 well">
+            {{ advert.content }}
+        </div>
+    </div>  
+    <div class="row">    
+        <div class="col-md-12">
+            {% if listAdvertSkills|length > 0 %}
+                    Cette annonce requiert les compétences suivantes :
+                    <ul>
+                        {% for advertSkill in listAdvertSkills %}
+                            <li>{{ advertSkill.skill.name }} : niveau {{ advertSkill.level }}</li>
+                        {% endfor %}
+                    </ul>
+            {% endif %}
+        </div>
+    </div>  
+    <div class="row">
+        <div class="col-md-12">
+            {% if advert.applications|length > 0 %}
+                <h4>Liste des candidatures</h4>
+                <ul class="nav nav-pills nav-stacked">
+                    {% for application in advert.applications %}
+                        <li>
+                            <i>Par {{ application.author }}, le {{ application.date|date('d/m/Y') }}</i>
+                            <div class="well">{{ application.content }}</div>
+                        </li>
+                    {% endfor %}
+                </ul> 
+            {% endif %}
+        </div>
+    </div>  
+    <div class="row">    
+        <div class="col-md-12">
+            {% if not advert.categories.empty %}
+            <p>
+            Cette annonce est parue dans les catégories suivantes :
+            {% for category in advert.categories %}
+              {{ category.name }}{% if not loop.last %}, {% endif %}
+            {% endfor %}
+            </p>
+            {% endif %}
+        </div>
+    </div>  
+    <div class="row">    
+        <div class="col-md-12">
+            <a href="{{ path('oc_platform_home') }}" class="btn btn-default">
+              <i class="glyphicon glyphicon-chevron-left"></i>
+              Retour à la liste
+            </a>
+            <a href="{{ path('oc_platform_edit', {'id': advert.id}) }}" class="btn btn-default">
+              <i class="glyphicon glyphicon-edit"></i>
+              Modifier l'annonce
+            </a>
+            <a href="{{ path('oc_platform_delete', {'id': advert.id}) }}" class="btn btn-danger">
+              <i class="glyphicon glyphicon-trash"></i>
+              Supprimer l'annonce
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

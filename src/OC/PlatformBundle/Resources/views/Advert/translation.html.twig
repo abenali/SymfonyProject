@@ -1,0 +1,15 @@
+<html>
+  <body>
+    {{ 'Hello'|trans }} {{ name }} {{ app.request.locale }}!
+    <div>
+        {{ 'advert.nombre'|transchoice(2) }}
+    </div>
+    <div>
+        {{ 'charte.titre' | trans }}
+        {% for i in 0..2 %}
+            <p>{{ ('charte.donnee.' ~ i )|trans|nl2br}}</p>
+        {% endfor %}
+    </div>
+    <p></p>
+  </body>
+</html>
